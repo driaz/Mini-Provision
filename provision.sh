@@ -76,7 +76,7 @@ sudo $FW --setallowsigned off >/dev/null
 sudo $FW --setallowsignedapp off >/dev/null
 ok "application firewall on, stealth on"
 
-sudo systemsetup -setremotelogin off >/dev/null 2>&1 || true
+sudo launchctl disable system/com.apple.openssh 2>/dev/null || true
 sudo launchctl disable system/com.apple.screensharing 2>/dev/null || true
 sudo launchctl bootout system/com.apple.screensharing 2>/dev/null || true
 ok "SSH and Screen Sharing off"
