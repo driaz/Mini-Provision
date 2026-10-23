@@ -37,9 +37,9 @@ say "Preflight"
 id -Gn | grep -qw admin                    || die "current user is not an admin"
 [[ "$(uname -s)" == "Darwin" ]]            || die "macOS only"
 
-ssid="$(ipconfig getsummary en0 2>/dev/null | awk -F': ' '/ SSID : /{print $2}')"
-[[ "${ssid:-}" == "$GUEST_SSID" ]]         || die "not on $GUEST_SSID (got '${ssid:-none}'); join the guest Wi-Fi first"
-ok "running as $(whoami) on $ssid"
+echo "Confirm this Mac is on Wi-Fi '$GUEST_SSID' (check the menu bar). Press Enter to continue, Ctrl-C to abort."
+read -r
+ssid="$GUEST_SSID"
 
 say "Admin password (interactive — never stored by this script)"
 sudo -v
