@@ -20,9 +20,9 @@ set -euo pipefail
 GUEST_SSID="Verizon_60E-Guest"
 AGENT_USER="agent"
 NVM_VERSION="v0.40.1"
-NODE_VERSION="lts/*"
-CODEX_VERSION="latest"          # pin to an exact version after first run
-BLENDER_CASK="blender"          # brew cask; pins via `brew install blender@X.Y` if needed
+NODE_VERSION="24.22.1"          # pinned Oct 23 (first run)
+CODEX_VERSION="0.164.0"         # pinned Oct 23 (first run)
+BLENDER_CASK="blender"          # unpinned by choice — brew takes latest; drift logged in versions.txt
 
 # ---- helpers ----------------------------------------------------------------
 say()  { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
