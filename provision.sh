@@ -16,13 +16,15 @@
 set -euo pipefail
 
 # ---- pins -------------------------------------------------------------------
-# Pin after the first successful run: `npm view @openai/codex version`, etc.
+# node and codex are pinned to the versions from the first successful run
+# (Oct 23, 2026). git and Blender are left to brew's latest by choice; drift is
+# recorded in /Users/Shared/versions.txt at the end of every run.
 GUEST_SSID="Verizon_60E-Guest"
 AGENT_USER="agent"
 NVM_VERSION="v0.40.1"
 NODE_VERSION="24.22.1"          # pinned Oct 23 (first run)
 CODEX_VERSION="0.164.0"         # pinned Oct 23 (first run)
-BLENDER_CASK="blender"          # unpinned by choice — brew takes latest; drift logged in versions.txt
+BLENDER_CASK="blender"          # unpinned by choice — brew takes latest
 
 # ---- helpers ----------------------------------------------------------------
 say()  { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
@@ -39,7 +41,6 @@ id -Gn | grep -qw admin                    || die "current user is not an admin"
 
 echo "Confirm this Mac is on Wi-Fi '$GUEST_SSID' (check the menu bar). Press Enter to continue, Ctrl-C to abort."
 read -r
-ssid="$GUEST_SSID"
 
 say "Admin password (interactive — never stored by this script)"
 sudo -v
@@ -59,6 +60,9 @@ if ! command -v brew >/dev/null 2>&1; then
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
+# make brew available in admin's interactive shells (installer does not do this)
+grep -q 'brew shellenv' "$HOME/.zprofile" 2>/dev/null || \
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 brew analytics off
 ok "brew $(brew --version | head -1)"
 
@@ -116,6 +120,10 @@ as_agent "
     curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
   fi
   . \"\$NVM_DIR/nvm.sh\"
+  # nvm's installer writes bash config; agent's login shell is zsh
+  if ! grep -q 'NVM_DIR' \"\$HOME/.zshrc\" 2>/dev/null; then
+    printf '%s\n' 'export NVM_DIR=\"\$HOME/.nvm\"' '[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"' >> \"\$HOME/.zshrc\"
+  fi
   nvm install $NODE_VERSION >/dev/null
   nvm alias default $NODE_VERSION >/dev/null
   npm config set ignore-scripts true
@@ -126,7 +134,7 @@ as_agent "
   defaults write com.apple.screensaver askForPassword -int 1
   defaults write com.apple.screensaver askForPasswordDelay -int 0
 "
-ok "nvm/node, npm ignore-scripts, codex, uv"
+ok "nvm/node $NODE_VERSION, npm ignore-scripts, codex $CODEX_VERSION, uv"
 
 # ---- heartbeat (stub until the log sink exists) -----------------------------
 say "Heartbeat LaunchDaemon (stub)"
@@ -153,6 +161,18 @@ sudo chmod 644 /Library/LaunchDaemons/local.silo.heartbeat.plist
 sudo launchctl bootout system/local.silo.heartbeat 2>/dev/null || true
 sudo launchctl bootstrap system /Library/LaunchDaemons/local.silo.heartbeat.plist
 ok "heartbeat every 5 min → /var/log/silo-heartbeat.log"
+
+# ---- versions (drift check on rebuild) --------------------------------------
+say "Recording versions"
+{
+  echo "provisioned: $(date -u +%FT%TZ)"
+  echo "macOS:   $(sw_vers -productVersion)"
+  echo "git:     $(git --version | awk '{print $3}')"
+  echo "blender: $(/Applications/Blender.app/Contents/MacOS/Blender --version 2>/dev/null | head -1 | awk '{print $2}')"
+  echo "node:    $(as_agent '. "$HOME/.nvm/nvm.sh"; node --version')"
+  echo "codex:   $(as_agent '. "$HOME/.nvm/nvm.sh"; codex --version')"
+} | tee /Users/Shared/versions.txt
+ok "versions → /Users/Shared/versions.txt"
 
 # ---- done -------------------------------------------------------------------
 say "Done. Still manual (passwords/tokens never pass through this script):"
