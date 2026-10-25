@@ -21,13 +21,22 @@ echo "== fetching daemon + plist"
 mkdir -p "$DIR"
 curl -fsSL "$RAW/axiom-sink.sh" -o "$DIR/axiom-sink.sh"
 curl -fsSL "$RAW/com.silo.axiom-sink.plist" -o "$PLIST"
-chown root:wheel "$DIR/axiom-sink.sh" "$PLIST"
-chmod 755 "$DIR/axiom-sink.sh"
+curl -fsSL "$RAW/silo-off.sh" -o "$DIR/silo-off.sh"
+chown root:wheel "$DIR/axiom-sink.sh" "$DIR/silo-off.sh" "$PLIST"
+chmod 755 "$DIR/axiom-sink.sh" "$DIR/silo-off.sh"
 chmod 644 "$PLIST"
 
-echo "== ingest token (ingest-only, dataset '$DATASET'); input hidden"
-read -rs -p "token: " TOKEN </dev/tty; echo
-[ -n "$TOKEN" ] || { echo "empty token"; exit 1; }
+# Token: reuse the stored one on re-runs; prompt only if absent (or if --new-token is passed).
+TOKEN=""
+if [ "${1:-}" != "--new-token" ]; then
+  TOKEN="$(security find-generic-password -a silo -s axiom-ingest -w "$KEYCHAIN" 2>/dev/null || true)"
+  [ -n "$TOKEN" ] && echo "== using stored ingest token (pass --new-token to replace)"
+fi
+if [ -z "$TOKEN" ]; then
+  echo "== ingest token (ingest-only, dataset '$DATASET'); input hidden"
+  read -rs -p "token: " TOKEN </dev/tty; echo
+  [ -n "$TOKEN" ] || { echo "empty token"; exit 1; }
+fi
 
 echo "== test event -> $URL"
 CODE="$(curl -sS -m 15 -o /dev/null -w '%{http_code}' -X POST "$URL" \
@@ -55,4 +64,5 @@ tail -n 5 /var/log/axiom-sink.log 2>/dev/null || echo "(no log yet)"
 
 echo
 echo "Done. Next: in Axiom, Query dataset '$DATASET' and confirm kind=lifecycle state=up plus heartbeats every 2 min."
+echo "Clean shutdown from now on:  sudo /usr/local/silo/silo-off.sh   (Apple menu > Shut Down will false-alert)"
 echo "If the daemon logged 'no ingest token', fall back to: printf '%s' TOKEN > /var/root/.axiom-ingest && chmod 600 /var/root/.axiom-ingest"
