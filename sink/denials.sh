@@ -24,7 +24,7 @@ else
   from=$(date -v-5M "+%Y-%m-%d %H:%M:%S")
 fi
 
-token=$(security find-generic-password -s "$TOKEN_SERVICE" -w /Library/Keychains/System.keychain 2>/dev/null) || {
+token=$(security find-generic-password -a silo -s "$TOKEN_SERVICE" -w /Library/Keychains/System.keychain 2>/dev/null) || {
   echo "$now token missing (service=$TOKEN_SERVICE)" >> "$LOG"; exit 1; }
 
 rows=$("$LS" log-traffic -b "$from" -e "$now" 2>>"$LOG" | awk -F',' '($9+0) > 0')
