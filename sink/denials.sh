@@ -15,7 +15,7 @@ DIR=/usr/local/silo
 CURSOR=$DIR/denials.cursor
 LOG=$DIR/denials.log
 DATASET=silo
-TOKEN_SERVICE=silo-axiom   # <-- set to the SAME keychain service name axiom-sink.sh uses
+TOKEN_SERVICE=silo   # <-- set to the SAME keychain service name axiom-sink.sh uses
 
 now=$(date "+%Y-%m-%d %H:%M:%S")
 if [ -s "$CURSOR" ]; then
