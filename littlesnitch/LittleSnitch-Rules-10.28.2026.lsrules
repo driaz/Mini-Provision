@@ -1,0 +1,335 @@
+{
+  "description" : "Rules as of 10.28.2026",
+  "name" : "LittleSnitch-Rules-10.28.2026",
+  "rules" : [
+    {
+      "action" : "allow",
+      "ports" : "443",
+      "remote-domains" : [
+        "icloud-content.com",
+        "icloud.com"
+      ]
+    },
+    {
+      "action" : "allow",
+      "ports" : "443",
+      "remote-domains" : [
+        "icloud-content.com",
+        "icloud.com"
+      ]
+    },
+    {
+      "action" : "allow",
+      "remote-domains" : [
+        "apple",
+        "apple-cloudkit.com",
+        "apple-mapkit.com",
+        "apple.com",
+        "apple.news",
+        "cdn-apple.com",
+        "mzstatic.com"
+      ]
+    },
+    {
+      "action" : "allow",
+      "remote-domains" : [
+        "apple",
+        "apple-cloudkit.com",
+        "apple-mapkit.com",
+        "apple.com",
+        "apple.news",
+        "cdn-apple.com",
+        "mzstatic.com"
+      ]
+    },
+    {
+      "action" : "allow",
+      "direction" : "both",
+      "remote" : "local-net"
+    },
+    {
+      "action" : "allow",
+      "direction" : "both",
+      "remote" : "local-net"
+    },
+    {
+      "action" : "allow",
+      "direction" : "incoming",
+      "protocol" : "icmp",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "direction" : "incoming",
+      "protocol" : "icmp",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "direction" : "both",
+      "process" : "appGroup.macOS",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "ports" : "443",
+      "process" : "script.\/usr\/local\/silo\/axiom-sink.sh",
+      "remote-domains" : "api.axiom.co",
+      "via" : "identifier.APPLE\/com.apple.curl"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "cloudflare.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "google.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "googleapis.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "gstatic.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "sentry.io"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "auth0.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "chatgpt.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "github.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "oaistatic.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "oaistatsig.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "oaiusercontent.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.codex",
+      "remote-domains" : "openai.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.sky.CUAService",
+      "remote-domains" : "chatgpt.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/com.openai.sky.CUAService",
+      "remote-domains" : "openai.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.2DC432GLL2\/codex",
+      "remote-domains" : "chatgpt.com"
+    },
+    {
+      "action" : "allow",
+      "direction" : "incoming",
+      "ports" : "68",
+      "process" : "identifier.APPLE\/com.apple.configd",
+      "protocol" : "udp",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.MLZF7K7B5R\/at.obdev.littlesnitch.softwareupdate",
+      "remote-domains" : "obdev.at"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.mDNSResponder",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.ocspd",
+      "remote" : "any"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "bing.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "facebook.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "google.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "gstatic.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "linkedin.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "tripadvisor.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "twitter.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "weather.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "wikipedia.org"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "yahoo.com"
+    },
+    {
+      "action" : "deny",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "yelp.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "chatgpt.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "github.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "githubassets.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "githubusercontent.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "oaistatic.com"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Safari",
+      "remote-domains" : "openai.com"
+    },
+    {
+      "action" : "allow",
+      "ports" : "443",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "api.axiom.co",
+      "via" : "identifier.APPLE\/com.apple.curl"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "chatgpt.com",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "github.com",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "github.com",
+      "via" : "identifier.APPLE\/com.apple.ssh"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "githubusercontent.com",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "npmjs.org",
+      "via" : "identifier.HX7739G8FX\/node"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "npmjs.org",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "oaiusercontent.com",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "openai.com",
+      "via" : "identifier.APPLE\/com.apple.curl"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.Terminal",
+      "remote-domains" : "openai.com",
+      "via" : "identifier.2DC432GLL2\/codex"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.trustd",
+      "remote" : "any"
+    },
+    {
+      "action" : "allow",
+      "process" : "identifier.APPLE\/com.apple.trustd",
+      "remote" : "any"
+    }
+  ]
+}
